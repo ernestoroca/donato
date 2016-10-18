@@ -79,6 +79,7 @@
 var vecPreguntas,vecRespuestas,vecNiveles;
 var reloj;
 var nroEjercicios,nroErrores;
+var maxRand,minVec;
 
 
 function reset(){
@@ -112,6 +113,23 @@ function guardaTodo(){
   localStorage.vecRespuestas=JSON.stringify(vecRespuestas);
 }
 
+function setMaxMin(){
+  var i,lng;
+  lng = vecNiveles.length;
+  maxRand=0;
+  minVec=0;
+  for (i=0;i<lng;i++){
+    if (minVec==i && vecNiveles[i]==0){
+      minVec++;
+    }
+    maxRand+=vecNiveles[i];
+    if (maxRand>40){
+      maxRand=40;
+      break;
+    }
+  }
+}
+
 function iniciar(){
   if (!localStorage.vecNiveles){
     reset();
@@ -120,11 +138,11 @@ function iniciar(){
     vecPreguntas = JSON.parse(localStorage.vecPreguntas);
     vecRespuestas = JSON.parse(localStorage.vecRespuestas);
   }
-  nroEjercicios=20;
   document.getElementById('empezar').style.display='block';
 }
 
 function empezar(){
+  setMaxMin();
   nroEjercicios=20;
   nroErrores=0;
   document.getElementById('empezar').style.display='none';
@@ -218,14 +236,14 @@ function preguntar(){
   var salto,pos,lng,repete;
   repete=3;
   do{
-    salto = Math.floor(20*Math.random())+1;
-    pos=0;
+    salto = Math.floor(maxRand*Math.random())+1;
+    pos = minVec;
     lng = vecNiveles.length;
     while(salto>vecNiveles[pos]){
-      salto-=vecNiveles[pos];
+      salto -= vecNiveles[pos];
       pos++;
       if (pos>=lng){
-        pos=lng-1;
+        pos = lng-1;
         break;
       }
     }
