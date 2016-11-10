@@ -55,7 +55,7 @@
   <div class="w3-col s12 pantalla w3-border w3-pale-yellow w3-xxlarge" id="respuesta">2</div>
 </div>
 <div class="w3-progress-container w3-tiny">
-  <div id="avance" class="w3-progressbar" style="width:0%"></div>
+  <div id="avance" class="w3-progressbar w3-pale-red" style="width:0%"></div>
 </div>
 <div class="w3-row w3-xxlarge">
   <div class="w3-col s4 boton w3-light-grey" id="btn1">1</div>
@@ -227,7 +227,7 @@ function preguntar(){
     return;
   }
   nroEjercicios--;
-  document.getElementById('avance').style.width = (5*nroEjercicios)+'%'; 
+  document.getElementById('avance').style.width = (100 - 5*nroEjercicios)+'%'; 
   var salto,pos,lng,repete;
   repete=3;
   do{
