@@ -54,7 +54,9 @@
 <div class="w3-row">
   <div class="w3-col s12 pantalla w3-border w3-pale-yellow w3-xxlarge" id="respuesta">2</div>
 </div>
-<hr>
+<div class="w3-progress-container w3-tiny">
+  <div id="avance" class="w3-progressbar" style="width:0%"></div>
+</div>
 <div class="w3-row w3-xxlarge">
   <div class="w3-col s4 boton w3-light-grey" id="btn1">1</div>
   <div class="w3-col s4 boton w3-grey" id="btn2">2</div>
@@ -136,12 +138,14 @@ function iniciar(){
     vecRespuestas = JSON.parse(localStorage[directorio+"vecRespuestas"]);
   }
   document.getElementById('empezar').style.display='block';
+  document.getElementById('avance').style.width = '0%'; 
 }
 function empezar(){
   setMaxMin();
   nroEjercicios=20;
   nroErrores=0;
   document.getElementById('empezar').style.display='none';
+  document.getElementById('avance').style.width = '0%'; 
   preguntar();
 }
 function numeroclick() {
@@ -173,7 +177,7 @@ function evaluar(){
   respuesta = document.getElementById("respuesta").innerHTML;
   if (respuesta=="&nbsp;"){
     numero=10000;
-  } else if (respuesta=="31416"){
+  } else if (respuesta=="111111"){
     reset();
     return;
   }
@@ -223,6 +227,7 @@ function preguntar(){
     return;
   }
   nroEjercicios--;
+  document.getElementById('avance').style.width = (5*nroEjercicios)+'%'; 
   var salto,pos,lng,repete;
   repete=3;
   do{
@@ -242,7 +247,7 @@ function preguntar(){
     }
     repete--;
   } while(document.getElementById("pregunta").innerHTML==vecPreguntas[pos]);
-  reloj = setTimeout(evaluar,4000);
+  reloj = setTimeout(evaluar,3500);
   document.getElementById("pregunta").innerHTML=vecPreguntas[pos];
   document.getElementById("respuesta").innerHTML="&nbsp;";
 }
