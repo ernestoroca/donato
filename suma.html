@@ -134,11 +134,15 @@ function iniciar(){
 }
 function empezar(){
   setMaxMin();
-  nroEjercicios=20;
-  nroErrores=0;
-  document.getElementById('empezar').style.display='none';
-  document.getElementById('avance').style.width = '0%'; 
-  preguntar();
+  if (maxRand===0){
+    reset();
+  } else {
+    nroEjercicios=20;
+    nroErrores=0;
+    document.getElementById('empezar').style.display='none';
+    document.getElementById('avance').style.width = '0%'; 
+    preguntar();
+  }
 }
 function numeroclick() {
   var pantalla = document.getElementById("respuesta");
