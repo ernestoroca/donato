@@ -27,14 +27,14 @@
 <div id="feliz" class="w3-modal w3-animate-zoom">
   <div class="w3-modal-content">
     <div class="w3-container">
-      <img src="/suma/feliz.jpg" style="width:100%">
+      <img src="/operaciones/feliz.jpg" style="width:100%">
     </div>
   </div>
 </div>
 <div id="triste" class="w3-modal w3-animate-zoom">
   <div class="w3-modal-content">
     <div class="w3-container">
-      <img src="/suma/triste.jpg" style="width:100%">
+      <img src="/operaciones/triste.jpg" style="width:100%">
       <p id="triste-mensaje" class="w3-jumbo w3-center w3-text-red"></p>
     </div>
   </div>
@@ -92,14 +92,6 @@ function reset(){
     for (b=0;b<10;b++){
       vecPreguntas.push(""+b+"+"+a);
       vecRespuestas.push(a+b);
-      vecNiveles.push(10);
-    }
-  }
-  //resta
-  for (a=0;a<10;a++){
-    for (b=0;b<10;b++){
-      vecPreguntas.push(""+(b+a)+"-"+a);
-      vecRespuestas.push(b);
       vecNiveles.push(10);
     }
   }
