@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>SUMA</title>
+<title>RESTA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 <style>
@@ -177,7 +177,7 @@ function evaluar(){
   respuesta = document.getElementById("respuesta").innerHTML;
   if (respuesta=="&nbsp;"){
     numero=10000;
-  } else if (respuesta=="111111"){
+  } else if (respuesta=="31416"){
     reset();
     return;
   }
@@ -227,6 +227,7 @@ function preguntar(){
     
     document.getElementById('empezar').style.display='block';
     guardaTodo();
+    alert(JSON.stringify(vecNiveles))
     return;
   }
   nroEjercicios--;
