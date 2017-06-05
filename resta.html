@@ -139,6 +139,10 @@ function iniciar(){
 
 function empezar(){
   setMaxMin();
+  if (maxRand==0){
+    reset();
+    setMaxMin();
+  }
   nroEjercicios=20;
   nroErrores=0;
   document.getElementById('empezar').style.display='none';
@@ -195,6 +199,9 @@ function evaluar(){
 function celebrar(pos){
   document.getElementById('feliz').style.display='block';
   vecNiveles[pos]--;
+  if (vecNiveles[pos]<0){
+    vecNiveles[pos] = 0;
+  }
   setTimeout(function(){
      document.getElementById('feliz').style.display='none';
     preguntar();
