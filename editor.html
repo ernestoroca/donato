@@ -13,16 +13,22 @@
 </style>
 </head>
 <body>
-<div id="editor">function foo(items) {
-    var x = "All this is syntax highlighted";
-    return x;
-}</div>
+<div id="editor"></div>
+<div>
+    <button type="button" id="leer">LEER</button>
+</div>
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.session.setMode("ace/mode/javascript");
+    editor.setValue("the new text here");
+    //editor.getValue();
+    
+    document.getElemebtById("leer").onclick = function(){
+        alert("leer");
+    };
 </script>
 </body>
 </html>
