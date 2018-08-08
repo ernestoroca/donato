@@ -146,7 +146,7 @@ function empezar(){
 }
 function numeroclick() {
   var pantalla = document.getElementById("respuesta");
-  var anterior = pantalla.innerHTML;
+  var anterior = pantalla.innerText;
   var actual = this.id.substring(3,4);
   if (anterior=="&nbsp;"){
     anterior="0";
@@ -155,29 +155,22 @@ function numeroclick() {
   pantalla.innerHTML = ""+nuevo;
 }
 function retro(){
-  var pantalla = document.getElementById("respuesta");
-  var anterior = pantalla.innerHTML;
-  if (anterior.length==1){
-    pantalla.innerHTML = "&nbsp;";
-  } else {
-    var numero = parseInt(anterior);
-    numero = Math.floor(numero/10);
-    pantalla.innerHTML = ""+numero;
-  }
+  var pantalla = document.getElementById("respuesta").innerText="";
 }
 function evaluar(){
   var numero,respuesta,pregunta,pos;
   if (reloj){
     clearTimeout(reloj);
   }
-  respuesta = document.getElementById("respuesta").innerHTML;
+  respuesta = document.getElementById("respuesta").innerText;
   if (respuesta=="&nbsp;"){
     numero=10000;
   } else if (respuesta=="31416"){
     reset();
     return;
+  } else {
+    numero = parseInt(respuesta);
   }
-  numero = parseInt(respuesta);
   
   pregunta = document.getElementById("pregunta").innerHTML;
   pos = vecPreguntas.indexOf(pregunta);
