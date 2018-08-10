@@ -146,24 +146,24 @@ function empezar(){
 }
 function numeroclick() {
   var pantalla = document.getElementById("respuesta");
-  var anterior = pantalla.innerText;
+  var anterior = pantalla.innerHTML;
   var actual = this.id.substring(3,4);
-  if (anterior==" "){
+  if (anterior=="&nbsp;"){
     anterior="0";
   }
   var nuevo = parseInt(anterior)*10+parseInt(actual);
   pantalla.innerHTML = ""+nuevo;
 }
 function retro(){
-  var pantalla = document.getElementById("respuesta").innerText="";
+  var pantalla = document.getElementById("respuesta").innerHTML="&nbsp;";
 }
 function evaluar(){
   var numero,respuesta,pregunta,pos;
   if (reloj){
     clearTimeout(reloj);
   }
-  respuesta = document.getElementById("respuesta").innerText;
-  if (respuesta==" "){
+  respuesta = document.getElementById("respuesta").innerHTML;
+  if (respuesta=="&nbsp;"){
     numero=10000;
   } else if (respuesta=="31416"){
     reset();
@@ -238,7 +238,7 @@ function preguntar(){
   } while(document.getElementById("pregunta").innerHTML==vecPreguntas[pos]);
   reloj = setTimeout(evaluar,3500);
   document.getElementById("pregunta").innerHTML=vecPreguntas[pos];
-  document.getElementById("respuesta").innerText=" ";
+  document.getElementById("respuesta").innerHTML="&nbsp;";
 }
 var vecBtnCls = document.getElementsByClassName("boton");
 for (var i = 0; i < vecBtnCls.length; i++) {
