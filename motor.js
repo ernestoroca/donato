@@ -1,5 +1,5 @@
-(function(){
-  var vecPreguntas,pActual,nroEjercicios,nroErrores,reloj;
+var Motor = (function(){
+  var tabla,vecPreguntas,pActual,nroEjercicios,nroErrores,reloj;
   function cargar(){
     var datostr = localStorage.getItem(tabla);
     if (datostr){
@@ -126,7 +126,8 @@
     preguntar();
   }
   return {
-    iniciar:function(){
+    iniciar:function(t){
+      tabla = t;
       document.getElementById("btn-del").addEventListener('click',retro,false);
       document.getElementById("btn-OK").addEventListener('click',evaluar,false);
       document.getElementById("empezar").addEventListener('click',empezar,false);
