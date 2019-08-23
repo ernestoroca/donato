@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SUMA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+<script src="motor.js"></script>
+<style>
+.boton{
+  padding: 15px;
+  text-align: center;
+}
+.pantalla{
+  padding: 15px;
+  text-align: center;
+}
+#btn-del{
+  padding: 15px;
+  text-align: center;
+}
+#btn-OK{
+  padding: 15px;
+  text-align: center;
+}
+</style>
+</head>
+<body onload="alcargar();">
+<div id="feliz" class="w3-modal w3-animate-zoom">
+  <div class="w3-modal-content">
+    <div class="w3-container">
+      <img src="/donato/img/feliz.jpg" style="width:100%">
+    </div>
+  </div>
+</div>
+<div id="triste" class="w3-modal w3-animate-zoom">
+  <div class="w3-modal-content">
+    <div class="w3-container">
+      <img src="/donato/img/triste.jpg" style="width:100%">
+      <p id="triste-mensaje" class="w3-jumbo w3-center w3-text-red"></p>
+    </div>
+  </div>
+</div>
+<div id="empezar" class="w3-modal w3-animate-zoom">
+  <div class="w3-modal-content">
+    <div class="w3-container">
+      <br>
+      <img id="empezar-img" src="https://media.giphy.com/media/QJvwBSGaoc4eI/giphy.gif" style="width:100%">
+      <p id="empezar-mensaje" class="w3-xxlarge w3-center w3-text-red">Toca la pantalla para empezar</p>
+    </div>
+  </div>
+</div>
+<div class="w3-row">
+  <div class="w3-col s12 pantalla w3-border w3-pale-green w3-xxlarge" id="pregunta">1+1</div>
+</div>
+<div class="w3-row">
+  <div class="w3-col s12 pantalla w3-border w3-pale-yellow w3-xxlarge" id="respuesta">2</div>
+</div>
+<div class="w3-progress-container w3-tiny">
+  <div id="avance" class="w3-progressbar w3-pale-red" style="width:0%"></div>
+</div>
+<div class="w3-row w3-xxlarge">
+  <div class="w3-col s4 boton w3-light-grey" id="btn1">1</div>
+  <div class="w3-col s4 boton w3-grey" id="btn2">2</div>
+  <div class="w3-col s4 boton w3-light-grey" id="btn3">3</div>
+</div>
+<div class="w3-row w3-xxlarge">
+  <div class="w3-col s4 boton w3-grey" id="btn4">4</div>
+  <div class="w3-col s4 boton w3-light-grey" id="btn5">5</div>
+  <div class="w3-col s4 boton w3-grey" id="btn6">6</div>
+</div>
+<div class="w3-row w3-xxlarge">
+  <div class="w3-col s4 boton w3-light-grey" id="btn7">7</div>
+  <div class="w3-col s4 boton w3-grey" id="btn8">8</div>
+  <div class="w3-col s4 boton w3-light-grey" id="btn9">9</div>
+</div>
+<div class="w3-row w3-xxlarge">
+  <div class="w3-col s4 w3-sand" id="btn-del"><<</div>
+  <div class="w3-col s4 boton w3-light-grey" id="btn0">0</div>
+  <div class="w3-col s4 w3-green" id="btn-OK">OK</div>
+</div>
+<script>
+
+function crear(){
+  var vec = [];
+  var a,b;
+  vec.push({pregunta:"Una pizarra",respuesta:"A board",nivel:10});
+  vec.push({pregunta:"A board",respuesta:"Una pizarra",nivel:10});
+  vec.push({pregunta:"Una puerta",respuesta:"A door",nivel:10});
+  vec.push({pregunta:"A door",respuesta:"Una puerta",nivel:10});
+  vec.push({pregunta:"",respuesta:"",nivel:10});
+  vec.push({pregunta:"",respuesta:"",nivel:10});
+  vec.push({pregunta:"",respuesta:"",nivel:10});
+  vec.push({pregunta:"",respuesta:"",nivel:10});
+  vec.push({pregunta:"",respuesta:"",nivel:10});
+  
+  return vec;
+}
+  
+function alcargar(){
+  Motor.iniciar("suma");
+}
+</script>
+</body>
+</html>
