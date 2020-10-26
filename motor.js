@@ -128,7 +128,7 @@ var Motor = (function(){
   return {
     iniciar:function(t){
       tabla = t;
-      document.getElementById("btn-del").addEventListener('click',retro,false);
+      //document.getElementById("btn-del").addEventListener('click',retro,false);
       document.getElementById("btn-OK").addEventListener('click',evaluar,false);
       document.getElementById("empezar").addEventListener('click',empezar,false);
       var vecBtnCls = document.getElementsByClassName("boton");
