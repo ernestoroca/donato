@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+  </head>
+  <body>
+    <div class="w3-row">
+      <div class="w3-col s10">
+        <input id="text1" class="w3-input" type="text">
+      </div>
+      <div class="w3-col s2">
+        <button id="play1" class="w3-button w3-green w3-border w3-border-black w3-round-large">Play</button>
+      </div>
+    </div>
+    <script>
+let speech = new SpeechSynthesisUtterance();
+speech.lang = "en";
+let voices = window.speechSynthesis.getVoices();
+for(let i=0;i<len;i++){
+    if(voices[i].name === "english1"){
+        speech.voice = voices[i];
+        break;
+    }
+}
+
+let texto = "This is a chair.";
+document.getElementById("play1").onclick = function(){
+    window.speechSynthesis.cancel();
+    speech.text = texto;
+    window.speechSynthesis.speak(speech);
+};
+    </script>
+  </body>
+</html>
