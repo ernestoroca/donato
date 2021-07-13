@@ -30,7 +30,7 @@ function config(){
     speech.voice = voices[ingles[Math.floor(Math.random()*ingles.length)]];
 }
 
-config();
+setTimeout(config,5000);
 
 let texto = "This is a chair.";
 document.getElementById("play1").onclick = function(){
