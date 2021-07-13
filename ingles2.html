@@ -17,6 +17,7 @@
 let speech = new SpeechSynthesisUtterance();
 speech.lang = "en";
 let voices = window.speechSynthesis.getVoices();
+let len = voices.length;
 for(let i=0;i<len;i++){
     if(voices[i].name === "english1"){
         speech.voice = voices[i];
