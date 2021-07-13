@@ -15,15 +15,22 @@
     </div>
     <script>
 let speech = new SpeechSynthesisUtterance();
-speech.lang = "en";
-let voices = window.speechSynthesis.getVoices();
-let len = voices.length;
-for(let i=0;i<len;i++){
-    if(voices[i].name === "english1"){
-        speech.voice = voices[i];
-        break;
+
+function config(){
+    speech.lang = "en";
+    let voices = window.speechSynthesis.getVoices();
+    let len = voices.length;
+    let ingles = [];
+    for(let i=0;i<len;i++){
+        if(voices[i].lang === "en-US"){
+            ingles.push(i);
+            break;
+        }
     }
+    speech.voice = voices[ingles[Math.floor(Math.random()*ingles.length)]];
 }
+
+config();
 
 let texto = "This is a chair.";
 document.getElementById("play1").onclick = function(){
