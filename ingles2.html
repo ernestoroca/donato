@@ -1,44 +1,187 @@
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
-      </head>
-      <body>
-        <div class="w3-row">
-          <div class="w3-col s10">
-            <input id="text1" class="w3-input" type="text">
-          </div>
-          <div class="w3-col s2">
-            <button id="play1" class="w3-button w3-green w3-border w3-border-black w3-round-large">Play</button>
-          </div>
-        </div>
-        <script>
-    window.speechSynthesis.cancel();
-    var speech = new SpeechSynthesisUtterance();
-    speech.lang = "en";
-    var ingles = null;
-    window.speechSynthesis.onvoiceschanged = function(){
-        if(ingles !== null){
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+  </head>
+  <body onload="alcargar();">
+    <div class="w3-row">
+      <div class="w3-col s12 m6 l4">
+        <select class="w3-select" id="selector">
+          <option value="" selected>...</option>
+          <option value="/leccion1.js">Lección 1</option>
+          <option value="/leccion2.js">Lección 2</option>
+          <option value="/leccion3.js">Lección 3</option>
+        </select>
+      </div>
+    </div>
+    <div id="pizarra"></div>
+    <div class="w3-row">
+      <div class="w3-col s12">
+        <button id="evaluar" class="w3-button w3-green w3-border w3-border-black w3-round-large">Evaluar</button>
+      </div>
+    </div>
+    <div id="alerta"></div>
+    <script>
+window.speechSynthesis.cancel();
+var speech = new SpeechSynthesisUtterance();
+speech.lang = "en";
+var ingles = null;
+window.speechSynthesis.onvoiceschanged = function(){
+    if(ingles !== null){
+        return;
+    }
+    let voices = window.speechSynthesis.getVoices();
+    let len = voices.length;
+    ingles = [];
+    for(let i=0;i<len;i++){
+        if(voices[i].lang === "en-US"){
+            ingles.push(voices[i]);
+        }
+    }
+};
+
+let respuestas = null;
+
+function cargarLeccion(enlace,cb){
+    var script = document.createElement('script');
+    script.onload = cb;
+    script.src = enlace;
+    document.head.appendChild(script);
+}
+function alcargar(){
+    let str = localStorage.getItem("ingles");
+    if(str){
+        respuestas = JSON.parse(str);
+        cargarLeccion(respuestas.archivo,preguntar);
+        document.getElementById("selector").value = respuestas.archivo;
+    }
+}
+document.getElementById("selector").onchange = function(){
+    let leccion = document.getElementById("selector").value;
+    if(respuestas){
+        if(respuestas.archivo === leccion){
             return;
         }
-        let voices = window.speechSynthesis.getVoices();
-        let len = voices.length;
-        ingles = [];
+    }
+    cargarLeccion(leccion,function(){
+        let len = preguntas.length;
+        let vec = [];
         for(let i=0;i<len;i++){
-            if(voices[i].lang === "en-US"){
-                ingles.push(voices[i]);
-            }
+            vec.push(10);
         }
-    };
+        respuestas = {
+            archivo: leccion,
+            valores: vec,
+            max: len*10,
+            actual: -1;
+        };
+        localStorage.setItem("ingles",JSON.stringify(respuestas));
+        preguntar();
+    });
+};
+
+function preguntar(){
+    let len = preguntas.length;
+    let pos = 0;
+    let salto;
+    let max = (respuestas.max>40)?40:respuestas.max;
+    salto = Math.floor(max*Math.random())+1;
+    while(salto>respuestas.valores[pos]){
+        salto -= respuestas.valores[pos];
+        pos++;
+    }
+    respuestas.actual = pos;
+    mostrarPregunta();
+}
+
+function mostrarPregunta(){
+    let str = preguntas[respuestas.actual];
+    let vec = str.splice("|");
+    let len = vec.length;
+    let strHtml = "";
+    for(let i=0;i<len;i++){
+        strHtml += `
+<div class="w3-row">
+  <div class="w3-col s10">
+    <input id="texto-${i}" class="w3-input" type="text">
+  </div>
+  <div class="w3-col s2">
+    <button id="play-${i}" class="w3-button w3-green w3-border w3-border-black w3-round-large">Play</button>
+  </div>
+</div>
+        `;
+    }
+    document.getElementById("pizarra").innerHTML = strHtml;
+}
+
+document.getElementById("evaluar").onclick = function(){
+    if(respuestas.actual === -1){
+        preguntar();
+        return;
+    }
+    let str = preguntas[respuestas.actual];
+    let vec = str.splice("|");
+    let len = vec.length;
+    let res = "";
     
-    var texto = "This is a chair.";
-    document.getElementById("play1").onclick = function(){
-        window.speechSynthesis.cancel();
-        speech.voice = ingles[Math.floor(Math.random()*ingles.length)];
-        speech.text = texto;
-        window.speechSynthesis.speak(speech);
-    };
+    let fallo = false;
+    for(let i=0;i<len;i++){
+        let texto = document.getElementById("texto-"+i).value;
+        texto = texto.trim();
+        texto = texto.toLowerCase();
+        if(vec[i] !== texto){
+            fallo = true;
+        }
+        document.getElementById("texto-"+i).value = vec[i];
+    }
+    
+    if(fallo){
+        let valorActual = respuestas.valores[respuestas.actual];
+        let delta = 10 - valorActual;
+        respuestas.max += delta;
+        respuestas.valores[respuestas.actual] = 10;
+        document.getElementById("alerta").innerHTML = `
+<div class="w3-panel w3-red">
+  <h3>Error</h3>
+  <p>Sigue intentando.</p>
+</div> `;
+    } else {
+        respuestas.max--;
+        respuestas.valores[respuestas.actual]--;
+        document.getElementById("alerta").innerHTML = `
+<div class="w3-panel w3-green">
+  <h3>¡Exito!</h3>
+  <p>Así se hace.</p>
+</div> `;
+    }
+    respuestas.actual = -1;
+}
+
+document.getElementById("pizarra").onclick = function(evento){
+    let target = evento.target;
+    if (target.id === ""){
+        target = target.parentNode;
+    }
+    if(target.id === "pizarra"){
+        return;
+    }
+    if(!target.id.includes("play-")){
+        return;
+    }
+    let elId = target.id.replace("play-","");
+    let num = parseInt(elId,10);
+    
+    let str = preguntas[respuestas.actual];
+    let vec = str.splice("|");
+    
+    window.speechSynthesis.cancel();
+    speech.voice = ingles[Math.floor(Math.random()*ingles.length)];
+    speech.text = vec[num];
+    window.speechSynthesis.speak(speech);
+};
         </script>
       </body>
     </html>
+    
+        
