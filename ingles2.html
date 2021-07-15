@@ -93,6 +93,14 @@ function preguntar(){
     mostrarPregunta();
 }
 
+function presionoEnter(evento){
+    if (evento.keyCode === 13) {
+        evaluar();
+    }
+}
+function presionoCtrl(evento){
+    console.log(evento.keyCode);
+}
 function mostrarPregunta(){
     let str = basedatos.preguntas[basedatos.actual];
     let vec = str.split("|");
@@ -112,13 +120,10 @@ function mostrarPregunta(){
     }
     document.getElementById("pizarra").innerHTML = strHtml;
     document.getElementById("alerta").innerHTML = "";
+    document.getElementById("texto-"+(len-1)).onkeyup = presionoEnter;
 }
 
 function evaluar(){
-    if(basedatos.actual === -1){
-        preguntar();
-        return;
-    }
     let str = basedatos.preguntas[basedatos.actual];
     let vec = str.split("|");
     let len = vec.length;
@@ -161,6 +166,7 @@ function evaluar(){
         max: basedatos.max,
         valores: basedatos.valores
     }));
+    setTimeout(preguntar,3000);
 }
 
 function clickPizarra(evento){
