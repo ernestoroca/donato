@@ -108,7 +108,7 @@ function presionoEnter(evento){
     if (evento.keyCode === 13) {
         evaluar();
     } else if (evento.keyCode === 17) {
-        let elId = evento.target.id.replace("play-","");
+        let elId = evento.target.id.replace("texto-","");
         let num = parseInt(elId,10);
         parlante(num);
     }
@@ -116,7 +116,7 @@ function presionoEnter(evento){
 function presionoCtrl(evento){
     let id = evento.target.id;
     if (evento.keyCode === 17) {
-        let elId = evento.target.id.replace("play-","");
+        let elId = evento.target.id.replace("texto-","");
         let num = parseInt(elId,10);
         parlante(num);
     }
