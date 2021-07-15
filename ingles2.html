@@ -48,7 +48,7 @@ function cargarUnidad(){
       case "unidad1":
           basedatos.preguntas = unidad1;
           break;
-      case "unidad1":
+      case "unidad2":
           basedatos.preguntas = unidad2;
           break;
     }
@@ -60,6 +60,7 @@ function cargarUnidad(){
     }
     basedatos.max = len*10;
     basedatos.valores = vec;
+    basedatos.actual = -1 
     preguntar();
 }
       
@@ -114,7 +115,7 @@ function mostrarPregunta(){
 }
 
 function evaluar(){
-    if(basedatos.respuestas.actual === -1){
+    if(basedatos.actual === -1){
         preguntar();
         return;
     }
