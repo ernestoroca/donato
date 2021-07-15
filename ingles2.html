@@ -3,25 +3,6 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
-  </head>
-  <body onload="alcargar();">
-    <div class="w3-row">
-      <div class="w3-col s12 m6 l4">
-        <select class="w3-select" id="selector">
-          <option value="" selected>...</option>
-          <option value="/leccion1.js">Lección 1</option>
-          <option value="/leccion2.js">Lección 2</option>
-          <option value="/leccion3.js">Lección 3</option>
-        </select>
-      </div>
-    </div>
-    <div id="pizarra"></div>
-    <div class="w3-row">
-      <div class="w3-col s12">
-        <button id="evaluar" class="w3-button w3-green w3-border w3-border-black w3-round-large">Evaluar</button>
-      </div>
-    </div>
-    <div id="alerta"></div>
     <script>
 window.speechSynthesis.cancel();
 var speech = new SpeechSynthesisUtterance();
@@ -74,7 +55,7 @@ document.getElementById("selector").onchange = function(){
             archivo: leccion,
             valores: vec,
             max: len*10,
-            actual: -1;
+            actual: -1
         };
         localStorage.setItem("ingles",JSON.stringify(respuestas));
         preguntar();
@@ -180,8 +161,29 @@ document.getElementById("pizarra").onclick = function(evento){
     speech.text = vec[num];
     window.speechSynthesis.speak(speech);
 };
-        </script>
-      </body>
-    </html>
+    </script>    
+  </head>
+  <!-- ################################################################################## -->
+  <!-- ################################################################################## -->
+  <body onload="alcargar();">
+    <div class="w3-row">
+      <div class="w3-col s12 m6 l4">
+        <select class="w3-select" id="selector">
+          <option value="" selected>...</option>
+          <option value="/leccion1.js">Lección 1</option>
+          <option value="/leccion2.js">Lección 2</option>
+          <option value="/leccion3.js">Lección 3</option>
+        </select>
+      </div>
+    </div>
+    <div id="pizarra"></div>
+    <div class="w3-row">
+      <div class="w3-col s12">
+        <button id="evaluar" class="w3-button w3-green w3-border w3-border-black w3-round-large">Evaluar</button>
+      </div>
+    </div>
+    <div id="alerta"></div>
+  </body>
+</html>
     
         
