@@ -78,7 +78,7 @@ function preguntar(){
 
 function mostrarPregunta(){
     let str = preguntas[respuestas.actual];
-    let vec = str.splice("|");
+    let vec = str.split("|");
     let len = vec.length;
     let strHtml = "";
     for(let i=0;i<len;i++){
@@ -102,7 +102,7 @@ function evaluar(){
         return;
     }
     let str = preguntas[respuestas.actual];
-    let vec = str.splice("|");
+    let vec = str.split("|");
     let len = vec.length;
     let res = "";
     
@@ -154,7 +154,7 @@ function clickPizarra(evento){
     let num = parseInt(elId,10);
     
     let str = preguntas[respuestas.actual];
-    let vec = str.splice("|");
+    let vec = str.split("|");
     
     window.speechSynthesis.cancel();
     speech.voice = ingles[Math.floor(Math.random()*ingles.length)];
