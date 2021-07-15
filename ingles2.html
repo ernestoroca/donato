@@ -108,19 +108,34 @@ function presionoEnter(evento){
     if (evento.keyCode === 13) {
         evaluar();
     } else if (evento.keyCode === 17) {
-        let elId = evento.target.id.replace("texto-","");
-        let num = parseInt(elId,10);
-        parlante(num);
+        let elId = evento.target.id.replace("texto-","play-");
+        document.getElementById(elId).click();
     }
 }
 function presionoCtrl(evento){
     let id = evento.target.id;
     if (evento.keyCode === 17) {
-        let elId = evento.target.id.replace("texto-","");
-        let num = parseInt(elId,10);
-        parlante(num);
+        let elId = evento.target.id.replace("texto-","play-");
+        document.getElementById(elId).click();
     }
 }
+function clickPizarra(evento){
+    let target = evento.target;
+    if (target.id === ""){
+        target = target.parentNode;
+    }
+    if(target.id === "pizarra"){
+        return;
+    }
+    if(!target.id.includes("play-")){
+        return;
+    }
+    let elId = target.id.replace("play-","");
+    let num = parseInt(elId,10);
+    
+    parlante(num);
+}
+      
 function mostrarPregunta(){
     let str = basedatos.preguntas[basedatos.actual];
     let vec = str.split("|");
@@ -129,8 +144,13 @@ function mostrarPregunta(){
     for(let i=0;i<len;i++){
         strHtml += `
 <div class="w3-row">
-  <div class="w3-col s12">
+  <div class="w3-col s1">
+  </div>
+  <div class="w3-col s10">
     <input id="texto-${i}" class="w3-input" type="text">
+  </div>
+  <div class="w3-col s2">
+    <button id="play-${i}" class="w3-button w3-green w3-border w3-border-black w3-round-large">Play</button>
   </div>
 </div>
         `;
@@ -142,7 +162,6 @@ function mostrarPregunta(){
     }
     document.getElementById("texto-"+(len-1)).onkeyup = presionoEnter;
     document.getElementById("texto-0").focus();
-    
 }
 
 function evaluar(){
@@ -222,6 +241,7 @@ function evaluar(){
     <div id="pizarra"></div>
     <div id="alerta"></div>
     <script>
+document.getElementById("pizarra").onclick = clickPizarra;
 document.getElementById("selector-leccion").onchange = selectLeccion;
 document.getElementById("selector-unidad").onchange = selectUnidad;
     </script>  
