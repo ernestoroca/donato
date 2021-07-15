@@ -144,9 +144,7 @@ function mostrarPregunta(){
     for(let i=0;i<len;i++){
         strHtml += `
 <div class="w3-row">
-  <div class="w3-col s1">
-  </div>
-  <div class="w3-col s10">
+  <div class="w3-col s8">
     <input id="texto-${i}" class="w3-input" type="text">
   </div>
   <div class="w3-col s2">
@@ -165,6 +163,14 @@ function mostrarPregunta(){
 }
 
 function evaluar(){
+    function sumarTodo(){
+        let len = basedatos.valores.length;
+        let acc= 0;
+        for(let i=0;i<len;i++){
+            acc += basedatos.valores[i];
+        }
+        basedatos.max = acc;
+    }
     let str = basedatos.preguntas[basedatos.actual];
     let vec = str.split("|");
     let len = vec.length;
@@ -182,14 +188,12 @@ function evaluar(){
     }
     
     if(fallo){
-        let valorActual = basedatos.valores[basedatos.actual];
-        let delta = 10 - valorActual;
-        basedatos.max += delta;
         basedatos.valores[basedatos.actual] = 10;
+        sumarTodo();
         document.getElementById("alerta").innerHTML = `
 <div class="w3-panel w3-red">
   <h3>Error</h3>
-  <p>Sigue intentando.</p>
+  <p>Sigue intentando: ${basedatos.max}</p>
 </div> `;
     } else {
         basedatos.max--;
@@ -197,7 +201,7 @@ function evaluar(){
         document.getElementById("alerta").innerHTML = `
 <div class="w3-panel w3-green">
   <h3>¡Exito!</h3>
-  <p>Así se hace.</p>
+  <p>Así se hace: ${basedatos.max}</p>
 </div> `;
     }
     basedatos.actual = -1;
@@ -207,7 +211,15 @@ function evaluar(){
         max: basedatos.max,
         valores: basedatos.valores
     }));
-    setTimeout(preguntar,3000);
+    if(basedatos.max === 0){
+        document.getElementById("alerta").innerHTML = `
+<div class="w3-panel w3-green">
+  <h3>¡Exito!</h3>
+  <p>Terminaste la Unidad</p>
+</div>  `;
+    } else {
+        setTimeout(preguntar,3000);
+    }
 }
     </script>    
   </head>
