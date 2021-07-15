@@ -92,13 +92,34 @@ function preguntar(){
     basedatos.actual = pos;
     mostrarPregunta();
 }
+      
+function parlante(num){
+    let str = basedatos.preguntas[basedatos.actual];
+    let vec = str.split("|");
+    
+    window.speechSynthesis.cancel();
+    speech.voice = ingles[Math.floor(Math.random()*ingles.length)];
+    speech.text = vec[num];
+    window.speechSynthesis.speak(speech);
+}
 
 function presionoEnter(evento){
+    let id = evento.target.id;
     if (evento.keyCode === 13) {
         evaluar();
+    } else if (evento.keyCode === 17) {
+        let elId = evento.target.id.replace("play-","");
+        let num = parseInt(elId,10);
+        parlante(id);
     }
 }
 function presionoCtrl(evento){
+    let id = evento.target.id;
+    if (evento.keyCode === 17) {
+        let elId = evento.target.id.replace("play-","");
+        let num = parseInt(elId,10);
+        parlante(num);
+    }
     console.log(evento.keyCode);
 }
 function mostrarPregunta(){
@@ -109,18 +130,20 @@ function mostrarPregunta(){
     for(let i=0;i<len;i++){
         strHtml += `
 <div class="w3-row">
-  <div class="w3-col s10">
+  <div class="w3-col s12">
     <input id="texto-${i}" class="w3-input" type="text">
-  </div>
-  <div class="w3-col s2">
-    <button id="play-${i}" class="w3-button w3-green w3-border w3-border-black w3-round-large">Play</button>
   </div>
 </div>
         `;
     }
     document.getElementById("pizarra").innerHTML = strHtml;
     document.getElementById("alerta").innerHTML = "";
+    for(let i=0;i<(len-1);i++){
+        document.getElementById("texto-"+i).onkeyup = presionoCtrl;
+    }
     document.getElementById("texto-"+(len-1)).onkeyup = presionoEnter;
+    document.getElementById("texto-0").focus();
+    
 }
 
 function evaluar(){
@@ -168,29 +191,6 @@ function evaluar(){
     }));
     setTimeout(preguntar,3000);
 }
-
-function clickPizarra(evento){
-    let target = evento.target;
-    if (target.id === ""){
-        target = target.parentNode;
-    }
-    if(target.id === "pizarra"){
-        return;
-    }
-    if(!target.id.includes("play-")){
-        return;
-    }
-    let elId = target.id.replace("play-","");
-    let num = parseInt(elId,10);
-    
-    let str = basedatos.preguntas[basedatos.actual];
-    let vec = str.split("|");
-    
-    window.speechSynthesis.cancel();
-    speech.voice = ingles[Math.floor(Math.random()*ingles.length)];
-    speech.text = vec[num];
-    window.speechSynthesis.speak(speech);
-}
     </script>    
   </head>
   <!-- ################################################################################## -->
@@ -221,11 +221,6 @@ function clickPizarra(evento){
       </div>
     </div>
     <div id="pizarra"></div>
-    <div class="w3-row">
-      <div class="w3-col s12">
-        <button onclick="evaluar();" class="w3-button w3-green w3-border w3-border-black w3-round-large">Evaluar</button>
-      </div>
-    </div>
     <div id="alerta"></div>
     <script>
 document.getElementById("pizarra").onclick = clickPizarra;
