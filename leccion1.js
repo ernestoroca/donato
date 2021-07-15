@@ -49,7 +49,7 @@ var unidad2 = [
   "is this a clock?|yes, it is",
   "is this a pencil?|no, it is not",
   "is this an eraser?|yes, it is",
-  "is this a sharpener?|yes, it is"
+  "is this a sharpener?|yes, it is",
   "is this a girl?|no, it is not",
   
   "is this a girl?|no, it is not",
