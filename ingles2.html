@@ -24,7 +24,7 @@ window.speechSynthesis.onvoiceschanged = function(){
 
 let respuestas = null;
 
-function cargarLeccion(enlace,cb){
+function cargarArchivo(enlace,cb){
     var script = document.createElement('script');
     script.onload = cb;
     script.src = enlace;
@@ -38,14 +38,14 @@ function alcargar(){
         document.getElementById("selector").value = respuestas.archivo;
     }
 }
-document.getElementById("selector").onchange = function(){
+function cargarLeccion(){
     let leccion = document.getElementById("selector").value;
     if(respuestas){
         if(respuestas.archivo === leccion){
             return;
         }
     }
-    cargarLeccion(leccion,function(){
+    cargarArchivo(leccion,function(){
         let len = preguntas.length;
         let vec = [];
         for(let i=0;i<len;i++){
@@ -185,6 +185,7 @@ function clickPizarra(evento){
     <div id="alerta"></div>
     <script>
 document.getElementById("pizarra").onclick = clickPizarra;
+document.getElementById("selector").onchange = cargarLeccion;
     </script>  
   </body>
 </html>
