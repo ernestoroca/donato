@@ -79,21 +79,6 @@ var unidad2 = [
   "is this a crayon?|yes, it is",
   "is this an eraser?|no, it isn't",
   "is this a teacher?|yes, it is",
-  "is this a box?|no, it isn't",
-  
-  
-  
-  
-  
+  "is this a box?|no, it isn't"
 ];
-  
-  
-  
-  
 
-
-
-
-
-
-];
