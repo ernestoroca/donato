@@ -110,7 +110,7 @@ function presionoEnter(evento){
     } else if (evento.keyCode === 17) {
         let elId = evento.target.id.replace("play-","");
         let num = parseInt(elId,10);
-        parlante(id);
+        parlante(num);
     }
 }
 function presionoCtrl(evento){
@@ -120,7 +120,6 @@ function presionoCtrl(evento){
         let num = parseInt(elId,10);
         parlante(num);
     }
-    console.log(evento.keyCode);
 }
 function mostrarPregunta(){
     let str = basedatos.preguntas[basedatos.actual];
@@ -223,7 +222,6 @@ function evaluar(){
     <div id="pizarra"></div>
     <div id="alerta"></div>
     <script>
-document.getElementById("pizarra").onclick = clickPizarra;
 document.getElementById("selector-leccion").onchange = selectLeccion;
 document.getElementById("selector-unidad").onchange = selectUnidad;
     </script>  
