@@ -96,7 +96,7 @@ function mostrarPregunta(){
     document.getElementById("pizarra").innerHTML = strHtml;
 }
 
-document.getElementById("evaluar").onclick = function(){
+function evaluar(){
     if(respuestas.actual === -1){
         preguntar();
         return;
@@ -139,7 +139,7 @@ document.getElementById("evaluar").onclick = function(){
     respuestas.actual = -1;
 }
 
-document.getElementById("pizarra").onclick = function(evento){
+function clickPizarra(evento){
     let target = evento.target;
     if (target.id === ""){
         target = target.parentNode;
@@ -160,7 +160,7 @@ document.getElementById("pizarra").onclick = function(evento){
     speech.voice = ingles[Math.floor(Math.random()*ingles.length)];
     speech.text = vec[num];
     window.speechSynthesis.speak(speech);
-};
+}
     </script>    
   </head>
   <!-- ################################################################################## -->
@@ -179,10 +179,13 @@ document.getElementById("pizarra").onclick = function(evento){
     <div id="pizarra"></div>
     <div class="w3-row">
       <div class="w3-col s12">
-        <button id="evaluar" class="w3-button w3-green w3-border w3-border-black w3-round-large">Evaluar</button>
+        <button onclick="evaluar();" class="w3-button w3-green w3-border w3-border-black w3-round-large">Evaluar</button>
       </div>
     </div>
     <div id="alerta"></div>
+    <script>
+document.getElementById("pizarra").onclick = clickPizarra;
+    </script>  
   </body>
 </html>
     
