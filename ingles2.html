@@ -34,7 +34,7 @@ function alcargar(){
     let str = localStorage.getItem("ingles");
     if(str){
         respuestas = JSON.parse(str);
-        cargarLeccion(respuestas.archivo,preguntar);
+        cargarArchivo(respuestas.archivo,preguntar);
         document.getElementById("selector").value = respuestas.archivo;
     }
 }
