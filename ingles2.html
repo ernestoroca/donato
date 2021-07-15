@@ -22,62 +22,78 @@ window.speechSynthesis.onvoiceschanged = function(){
     }
 };
 
-let respuestas = null;
+var basedatos = null;
 
-function cargarArchivo(enlace,cb){
+function cargarArchivo(cb){
     var script = document.createElement('script');
     script.onload = cb;
-    script.src = "https://ernestoroca.github.io/donato/"+enlace+".js";
+    script.src = "https://ernestoroca.github.io/donato/"+respuestas.leccion+".js";
     document.head.appendChild(script);
 }
+      
+function selectLeccion(){
+    basedatos.leccion = document.getElementById("selector-leccion").value;
+    basedatos.unidad = "unidad1";
+    document.getElementById("selector-unidad").value = basedatos.unidad;
+    cargarArchivo(cargarUnidad);
+}  
+
+function selectUnidad(){
+    basedatos.unidad = document.getElementById("selector-unidad").value;
+    cargarUnidad();
+}
+  
+function cargarUnidad(){
+    switch(basedatos.unidad){
+      case "unidad1":
+          basedatos.preguntas = unidad1;
+          break;
+      case "unidad1":
+          basedatos.preguntas = unidad2;
+          break;
+    }
+    
+    let len = basedatos.preguntas.length;
+    let vec = [];
+    for(let i=0;i<len;i++){
+        vec.push(10);
+    }
+    basedatos.max = len*10;
+    basedatos.valores = vec;
+    preguntar();
+}
+      
 function alcargar(){
     let str = localStorage.getItem("ingles");
     if(str){
-        respuestas = JSON.parse(str);
-        cargarArchivo(respuestas.archivo,preguntar);
-        document.getElementById("selector").value = respuestas.archivo;
-    }
-}
-function cargarLeccion(){
-    let leccion = document.getElementById("selector").value;
-    if(respuestas){
-        if(respuestas.archivo === leccion){
-            return;
-        }
-    }
-    cargarArchivo(leccion,function(){
-        let len = preguntas.length;
-        let vec = [];
-        for(let i=0;i<len;i++){
-            vec.push(10);
-        }
-        respuestas = {
-            archivo: leccion,
-            valores: vec,
-            max: len*10,
-            actual: -1
+        basedatos = JSON.parse(str);
+    } else {
+        basedatos = {
+            leccion: "leccion1",
+            unidad: "unidad1"
         };
-        localStorage.setItem("ingles",JSON.stringify(respuestas));
-        preguntar();
-    });
-};
-
+    }
+    document.getElementById("selector-leccion").value = basedatos.leccion;
+    document.getElementById("selector-unidad").value = basedatos.unidad;
+    cargarArchivo(cargarUnidad);
+}
+      
 function preguntar(){
-    let len = preguntas.length;
+    let len = basedatos.preguntas.length;
     let pos = 0;
     let salto;
-    let max = (respuestas.max>40)?40:respuestas.max;
+    let max = (basedatos.max>40)?40:basedatos.max;
     salto = Math.floor(max*Math.random())+1;
-    while(salto>respuestas.valores[pos]){
-        salto -= respuestas.valores[pos];
+    while(salto>basedatos.valores[pos]){
+        salto -= basedatos.valores[pos];
         pos++;
     }
-    respuestas.actual = pos;
+    basedatos.actual = pos;
     mostrarPregunta();
 }
 
 function mostrarPregunta(){
-    let str = preguntas[respuestas.actual];
+    let str = basedatos.preguntas[basedatos.actual];
     let vec = str.split("|");
     let len = vec.length;
     let strHtml = "";
@@ -98,11 +114,11 @@ function mostrarPregunta(){
 }
 
 function evaluar(){
-    if(respuestas.actual === -1){
+    if(basedatos.respuestas.actual === -1){
         preguntar();
         return;
     }
-    let str = preguntas[respuestas.actual];
+    let str = basedatos.preguntas[basedatos.actual];
     let vec = str.split("|");
     let len = vec.length;
     let res = "";
@@ -119,25 +135,31 @@ function evaluar(){
     }
     
     if(fallo){
-        let valorActual = respuestas.valores[respuestas.actual];
+        let valorActual = basedatos.valores[basedatos.actual];
         let delta = 10 - valorActual;
-        respuestas.max += delta;
-        respuestas.valores[respuestas.actual] = 10;
+        basedatos.max += delta;
+        basedatos.valores[basedatos.actual] = 10;
         document.getElementById("alerta").innerHTML = `
 <div class="w3-panel w3-red">
   <h3>Error</h3>
   <p>Sigue intentando.</p>
 </div> `;
     } else {
-        respuestas.max--;
-        respuestas.valores[respuestas.actual]--;
+        basedatos.max--;
+        basedatos.valores[basedatos.actual]--;
         document.getElementById("alerta").innerHTML = `
 <div class="w3-panel w3-green">
   <h3>¡Exito!</h3>
   <p>Así se hace.</p>
 </div> `;
     }
-    respuestas.actual = -1;
+    basedatos.actual = -1;
+    localStorage.setItem("ingles",JSON.stringify({
+        leccion: basedatos.leccion,
+        unidad: basedatos.unidad,
+        max: basedatos.max,
+        valores: basedatos.valores
+    }));
 }
 
 function clickPizarra(evento){
@@ -154,7 +176,7 @@ function clickPizarra(evento){
     let elId = target.id.replace("play-","");
     let num = parseInt(elId,10);
     
-    let str = preguntas[respuestas.actual];
+    let str = basedatos.preguntas[basedatos.actual];
     let vec = str.split("|");
     
     window.speechSynthesis.cancel();
@@ -169,11 +191,25 @@ function clickPizarra(evento){
   <body onload="alcargar();">
     <div class="w3-row">
       <div class="w3-col s12 m6 l4">
-        <select class="w3-select" id="selector">
+        <select class="w3-select" id="selector-leccion">
           <option value="" selected>...</option>
           <option value="leccion1">Lección 1</option>
           <option value="leccion2">Lección 2</option>
           <option value="leccion3">Lección 3</option>
+        </select>
+      </div>
+      <div class="w3-col s12 m6 l4">
+        <select class="w3-select" id="selector-unidad">
+          <option value="" selected>...</option>
+          <option value="unidad1">Unidad 1</option>
+          <option value="unidad2">Unidad 2</option>
+          <option value="unidad3">Unidad 3</option>
+          <option value="unidad4">Unidad 4</option>
+          <option value="unidad5">Unidad 5</option>
+          <option value="unidad6">Unidad 6</option>
+          <option value="unidad7">Unidad 7</option>
+          <option value="unidad8">Unidad 8</option>
+          <option value="unidad9">Unidad 9</option>
         </select>
       </div>
     </div>
@@ -186,7 +222,8 @@ function clickPizarra(evento){
     <div id="alerta"></div>
     <script>
 document.getElementById("pizarra").onclick = clickPizarra;
-document.getElementById("selector").onchange = cargarLeccion;
+document.getElementById("selector-leccion").onchange = selectLeccion;
+document.getElementById("selector-unidad").onchange = selectUnidad;
     </script>  
   </body>
 </html>
