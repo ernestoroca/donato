@@ -100,23 +100,27 @@ function parlante(num){
     window.speechSynthesis.cancel();
     speech.voice = ingles[Math.floor(Math.random()*ingles.length)];
     speech.text = vec[num];
-    window.speechSynthesis.speak(speech);
+    setTimeout(function(){
+        window.speechSynthesis.speak(speech);
+    },100);
 }
 
-function presionoEnter(evento){
-    let id = evento.target.id;
+function presionoUltima(evento){
     if (evento.keyCode === 13) {
         evaluar();
     } else if (evento.keyCode === 17) {
-        let elId = evento.target.id.replace("texto-","play-");
-        document.getElementById(elId).click();
+        let id = evento.target.id;
+        let n = parseInt(id.replace("texto-",""),10);
+        parlante(n);
     }
 }
-function presionoCtrl(evento){
+function presionoTecla(evento){
     let id = evento.target.id;
-    if (evento.keyCode === 17) {
-        let elId = evento.target.id.replace("texto-","play-");
-        document.getElementById(elId).click();
+    let n = parseInt(id.replace("texto-",""),10);
+    if (evento.keyCode === 13) {
+        document.getElementById("texto-"+(n+1)).focus();
+    } else if (evento.keyCode === 17) {
+        parlante(n);
     }
 }
 function clickPizarra(evento){
@@ -131,9 +135,7 @@ function clickPizarra(evento){
         return;
     }
     let elId = target.id.replace("play-","");
-    let num = parseInt(elId,10);
-    
-    parlante(num);
+    parlante(parseInt(elId,10));
 }
       
 function mostrarPregunta(){
@@ -144,6 +146,9 @@ function mostrarPregunta(){
     for(let i=0;i<len;i++){
         strHtml += `
 <div class="w3-row">
+  <div class="w3-col s2">
+    <a href="https://translate.google.com/?sl=en&tl=es&text=${encodeURIComponent(vec[i])}" target="_blank" class="w3-btn w3-yellow w3-border w3-border-black w3-round-large">Trans</a>
+  </div>
   <div class="w3-col s8">
     <input id="texto-${i}" class="w3-input" type="text">
   </div>
@@ -156,9 +161,9 @@ function mostrarPregunta(){
     document.getElementById("pizarra").innerHTML = strHtml;
     document.getElementById("alerta").innerHTML = "";
     for(let i=0;i<(len-1);i++){
-        document.getElementById("texto-"+i).onkeyup = presionoCtrl;
+        document.getElementById("texto-"+i).onkeyup = presionoTecla;
     }
-    document.getElementById("texto-"+(len-1)).onkeyup = presionoEnter;
+    document.getElementById("texto-"+(len-1)).onkeyup = presionoUltima;
     document.getElementById("texto-0").focus();
 }
 
@@ -218,7 +223,7 @@ function evaluar(){
   <p>Terminaste la Unidad</p>
 </div>  `;
     } else {
-        setTimeout(preguntar,3000);
+        setTimeout(preguntar,2000);
     }
 }
     </script>    
@@ -249,7 +254,7 @@ function evaluar(){
           <option value="unidad9">Unidad 9</option>
         </select>
       </div>
-    </div>
+    </div><br><br><br><br><br>
     <div id="pizarra"></div>
     <div id="alerta"></div>
     <script>
