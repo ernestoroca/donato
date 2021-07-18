@@ -34,12 +34,14 @@ function cargarArchivo(cb){
 function selectLeccion(){
     basedatos.leccion = document.getElementById("selector-leccion").value;
     basedatos.unidad = "unidad1";
+    basedatos.max = -1;
     document.getElementById("selector-unidad").value = basedatos.unidad;
     cargarArchivo(cargarUnidad);
 }  
 
 function selectUnidad(){
     basedatos.unidad = document.getElementById("selector-unidad").value;
+    basedatos.max = -1;
     cargarUnidad();
 }
   
@@ -52,7 +54,11 @@ function cargarUnidad(){
           basedatos.preguntas = unidad2;
           break;
     }
-    
+    basedatos.actual = -1
+    if(basedatos.max > 0){
+        preguntar();
+        return;
+    }
     let len = basedatos.preguntas.length;
     let vec = [];
     for(let i=0;i<len;i++){
@@ -60,7 +66,6 @@ function cargarUnidad(){
     }
     basedatos.max = len*10;
     basedatos.valores = vec;
-    basedatos.actual = -1 
     preguntar();
 }
       
@@ -71,7 +76,8 @@ function alcargar(){
     } else {
         basedatos = {
             leccion: "leccion1",
-            unidad: "unidad1"
+            unidad: "unidad1",
+            max: -1
         };
     }
     document.getElementById("selector-leccion").value = basedatos.leccion;
