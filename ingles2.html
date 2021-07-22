@@ -30,7 +30,6 @@ function cargarArchivo(cb){
     script.src = "https://ernestoroca.github.io/donato/"+basedatos.leccion+".js";
     document.head.appendChild(script);
 }
-      
 function selectLeccion(){
     basedatos.leccion = document.getElementById("selector-leccion").value;
     basedatos.unidad = "unidad1";
@@ -38,13 +37,11 @@ function selectLeccion(){
     document.getElementById("selector-unidad").value = basedatos.unidad;
     cargarArchivo(cargarUnidad);
 }  
-
 function selectUnidad(){
     basedatos.unidad = document.getElementById("selector-unidad").value;
     basedatos.max = -1;
     cargarUnidad();
 }
-  
 function cargarUnidad(){
     switch(basedatos.unidad){
       case "unidad1":
@@ -53,22 +50,40 @@ function cargarUnidad(){
       case "unidad2":
           basedatos.preguntas = unidad2;
           break;
+      case "unidad3":
+          basedatos.preguntas = unidad3;
+          break;
+      case "unidad4":
+          basedatos.preguntas = unidad4;
+          break;
+      case "unidad5":
+          basedatos.preguntas = unidad5;
+          break;
+      case "unidad6":
+          basedatos.preguntas = unidad6;
+          break;
+      case "unidad7":
+          basedatos.preguntas = unidad7;
+          break;
+      case "unidad8":
+          basedatos.preguntas = unidad8;
+          break;
+      case "unidad9":
+          basedatos.preguntas = unidad9;
+          break;
     }
     basedatos.actual = -1
-    if(basedatos.max > 0){
-        preguntar();
-        return;
+    if(basedatos.max < 0){
+        let len = basedatos.preguntas.length;
+        let vec = [];
+        for(let i=0;i<len;i++){
+            vec.push(10);
+        }
+        basedatos.max = len*10;
+        basedatos.valores = vec;
     }
-    let len = basedatos.preguntas.length;
-    let vec = [];
-    for(let i=0;i<len;i++){
-        vec.push(10);
-    }
-    basedatos.max = len*10;
-    basedatos.valores = vec;
     preguntar();
 }
-      
 function alcargar(){
     let str = localStorage.getItem("ingles");
     if(str){
@@ -84,7 +99,6 @@ function alcargar(){
     document.getElementById("selector-unidad").value = basedatos.unidad;
     cargarArchivo(cargarUnidad);
 }
-      
 function preguntar(){
     let len = basedatos.preguntas.length;
     let pos = 0;
@@ -98,7 +112,6 @@ function preguntar(){
     basedatos.actual = pos;
     mostrarPregunta();
 }
-      
 function parlante(num){
     let str = basedatos.preguntas[basedatos.actual];
     let vec = str.split("|");
@@ -110,7 +123,6 @@ function parlante(num){
         window.speechSynthesis.speak(speech);
     },100);
 }
-
 function presionoUltima(evento){
     if (evento.keyCode === 13) {
         evaluar();
@@ -143,7 +155,6 @@ function clickPizarra(evento){
     let elId = target.id.replace("play-","");
     parlante(parseInt(elId,10));
 }
-      
 function mostrarPregunta(){
     let str = basedatos.preguntas[basedatos.actual];
     let vec = str.split("|");
@@ -172,7 +183,6 @@ function mostrarPregunta(){
     document.getElementById("texto-"+(len-1)).onkeyup = presionoUltima;
     document.getElementById("texto-0").focus();
 }
-
 function evaluar(){
     function sumarTodo(){
         let len = basedatos.valores.length;
@@ -228,6 +238,8 @@ function evaluar(){
   <h3>¡Exito!</h3>
   <p>Terminaste la Unidad</p>
 </div>  `;
+    } else if (fallo){
+        setTimeout(preguntar,5000);
     } else {
         setTimeout(preguntar,2000);
     }
@@ -270,5 +282,3 @@ document.getElementById("selector-unidad").onchange = selectUnidad;
     </script>  
   </body>
 </html>
-    
-        
