@@ -203,7 +203,7 @@ var unidad4 = [
   "number seven is a giraffe",
   "number five is an elephant",
   "this is a lion.|it's yellow.",
-  "this is a monkey."|it's brown.",
+  "this is a monkey.|it's brown.",
   "this is an elephant.|it's gray.",
   "this is a bird.|it's orante and blue.",
   "number one is a yellow lion",
@@ -267,7 +267,7 @@ var unidad4 = [
   "what's this?|it's a lion.",
   "what's this?|it's a girl.",
   "what's the number? it's three."
-};
+];
   
 
 
