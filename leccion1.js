@@ -268,6 +268,52 @@ var unidad4 = [
   "what's this?|it's a girl.",
   "what's the number?|it's three."
 ];
+
+var unidad5 = [
+"A cage.",
+"A fishbowl.",
+"A picture.",
+"A sofa.",
+"A ball.",
+"An armchair.",
+"A table.",
+"The bird is in the cage.",
+"The cat is on the sofa.",
+"The dog is under the table.",
+"The mouse is in the wall.",
+"Where's the fish?|It's in the fishbowl.",
+"Where is the cat?|It is in the trash can.",
+"Where's the pigeon?|It's on the desk.",
+"Where is the dog?|It is under the schoolbag.",
+"Is the pigeon in the cage?|No, it isn't.",
+"Is the cat in the trash can?|Yes, it is.",
+"It the dog on the schoolbag?|No, it isn't.",
+"Is the mouse under the book?|Yes, it is.",
+"The blue elephant is on the sofa.",
+"The yellow lion is under the table.",
+"The green elephant is in the box.",
+"The brown lion is under the chair.",
+"The yellow pigeon is in the schoolbag.",
+"The orange tiger is on the armchair.",
+"Where's the duck?|It's on the sofa.",
+"Where is the dog?|It is under the e,lephant.",
+"Where's the pigeon?|It's on the elephant.",
+"Where is the orange cat?|It is under the box.",
+"Where's the brown monkey?|It's on the sofa.",
+"Where is the green bird?|It is in the cage.",
+"Where's the black dog?|It's under the giraffe.",
+"Where is the red monkey?|It is on the brown monkey.",
+"The elephant is on the mouse.",
+"The crayon is on the table.",
+"The ball is under the chair.",
+"The book is in the box.",
+"The ruler is in the schoolbag.",
+"Is the monkey in the classroom?|Yes, it is.",
+"Is the monkey on the sofa?|No, it isn't.",
+"What color is the monkey?|It's brown.",
+"Where's the sharpener?|It's on the desk.",
+"Do you have a pet?|Yes, I do. I have a dog."
+]
   
 
 
