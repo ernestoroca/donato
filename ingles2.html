@@ -199,10 +199,8 @@ function evaluar(){
     
     let fallo = false;
     for(let i=0;i<len;i++){
-        let texto = document.getElementById("texto-"+i).value;
-        texto = texto.trim();
-        texto = texto.toLowerCase();
-        if(vec[i] !== texto){
+        let texto = document.getElementById("texto-"+i).value.trim().toLowerCase();
+        if(vec[i].toLowerCase() !== texto){
             fallo = true;
         }
         document.getElementById("texto-"+i).value = vec[i];
