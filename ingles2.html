@@ -155,6 +155,10 @@ function clickPizarra(evento){
     let elId = target.id.replace("play-","");
     parlante(parseInt(elId,10));
 }
+function resetTraductor(){
+    basedatos.valores[basedatos.actual] = 10;
+    sumarTodo();
+}
 function mostrarPregunta(){
     let str = basedatos.preguntas[basedatos.actual];
     let vec = str.split("|");
@@ -164,7 +168,7 @@ function mostrarPregunta(){
         strHtml += `
 <div class="w3-row">
   <div class="w3-col s2">
-    <a href="https://translate.google.com/?sl=en&tl=es&text=${encodeURIComponent(vec[i])}" target="_blank" class="w3-btn w3-yellow w3-border w3-border-black w3-round-large">Trad</a>
+    <a onclick="resetTraductor()" href="https://translate.google.com/?sl=en&tl=es&text=${encodeURIComponent(vec[i])}" target="_blank" class="w3-btn w3-yellow w3-border w3-border-black w3-round-large">Trad</a>
   </div>
   <div class="w3-col s8">
     <input id="texto-${i}" class="w3-input" type="text">
@@ -183,15 +187,15 @@ function mostrarPregunta(){
     document.getElementById("texto-"+(len-1)).onkeyup = presionoUltima;
     document.getElementById("texto-0").focus();
 }
-function evaluar(){
-    function sumarTodo(){
-        let len = basedatos.valores.length;
-        let acc= 0;
-        for(let i=0;i<len;i++){
-            acc += basedatos.valores[i];
-        }
-        basedatos.max = acc;
+function sumarTodo(){
+    let len = basedatos.valores.length;
+    let acc= 0;
+    for(let i=0;i<len;i++){
+        acc += basedatos.valores[i];
     }
+    basedatos.max = acc;
+}
+function evaluar(){
     let str = basedatos.preguntas[basedatos.actual];
     let vec = str.split("|");
     let len = vec.length;
