@@ -296,7 +296,7 @@ var unidad5 = [
 "The yellow pigeon is in the schoolbag.",
 "The orange tiger is on the armchair.",
 "Where's the duck?|It's on the sofa.",
-"Where is the dog?|It is under the e,lephant.",
+"Where is the dog?|It is under the elephant.",
 "Where's the pigeon?|It's on the elephant.",
 "Where is the orange cat?|It is under the box.",
 "Where's the brown monkey?|It's on the sofa.",
