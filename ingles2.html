@@ -73,14 +73,20 @@ function cargarUnidad(){
           break;
     }
     basedatos.actual = -1
+    let len = basedatos.preguntas.length;
     if(basedatos.max < 0){
-        let len = basedatos.preguntas.length;
         let vec = [];
         for(let i=0;i<len;i++){
             vec.push(10);
         }
         basedatos.max = len*10;
         basedatos.valores = vec;
+    } else {
+        let acc = 0;
+        for(let i=0;i<len;i++){
+            acc += basedatos.valores[i];
+        }
+        basedatos.max = acc;
     }
     preguntar();
 }
