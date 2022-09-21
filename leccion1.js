@@ -584,3 +584,5 @@ var unidad9 = [
 "No more playing.|Time to go to sleep.",
 "What do you do in your bedroom?|I play with my toys."
 ];
+
+var maxUnidades = 9;
