@@ -23,12 +23,23 @@ window.speechSynthesis.onvoiceschanged = function(){
 };
 
 var basedatos = null;
+var elScript = null;
 
+function printUnidades(){
+    let str = `<option value="" selected>...</option>`;
+    for(let i=1;i<=maxUnidades;i++){
+        str += `<option value="unidad${i}">Unidad ${i}</option>`;
+    }
+    document.getElementById("selector-unidad").innerHTML = str;
+}
 function cargarArchivo(cb){
-    var script = document.createElement('script');
-    script.onload = cb;
-    script.src = "https://ernestoroca.github.io/donato/"+basedatos.leccion+".js";
-    document.head.appendChild(script);
+    if(elScript){
+        elScript.parentNode.removeChild(elScript);
+    }
+    elScript = document.createElement('script');
+    elScript.onload = cb;
+    elScript.src = "https://ernestoroca.github.io/donato/"+basedatos.leccion+".js";
+    document.head.appendChild(elScript);
 }
 function selectLeccion(){
     basedatos.leccion = document.getElementById("selector-leccion").value;
@@ -43,6 +54,10 @@ function selectUnidad(){
     cargarUnidad();
 }
 function cargarUnidad(){
+    printUnidades();
+    document.getElementById("selector-leccion").value = basedatos.leccion;
+    document.getElementById("selector-unidad").value = basedatos.unidad;
+    
     switch(basedatos.unidad){
       case "unidad1":
           basedatos.preguntas = unidad1;
@@ -70,6 +85,9 @@ function cargarUnidad(){
           break;
       case "unidad9":
           basedatos.preguntas = unidad9;
+          break;
+      case "unidad10":
+          basedatos.preguntas = unidad10;
           break;
     }
     basedatos.actual = -1
@@ -101,8 +119,6 @@ function alcargar(){
             max: -1
         };
     }
-    document.getElementById("selector-leccion").value = basedatos.leccion;
-    document.getElementById("selector-unidad").value = basedatos.unidad;
     cargarArchivo(cargarUnidad);
 }
 function preguntar(){
@@ -268,16 +284,6 @@ function evaluar(){
       </div>
       <div class="w3-col s12 m6 l4">
         <select class="w3-select" id="selector-unidad">
-          <option value="" selected>...</option>
-          <option value="unidad1">Unidad 1</option>
-          <option value="unidad2">Unidad 2</option>
-          <option value="unidad3">Unidad 3</option>
-          <option value="unidad4">Unidad 4</option>
-          <option value="unidad5">Unidad 5</option>
-          <option value="unidad6">Unidad 6</option>
-          <option value="unidad7">Unidad 7</option>
-          <option value="unidad8">Unidad 8</option>
-          <option value="unidad9">Unidad 9</option>
         </select>
       </div>
     </div><br><br><br><br><br>
