@@ -688,3 +688,5 @@ var unidad10 = [
 "Train.",
 "Train station.",
 ];
+
+var maxUnidades = 10;
