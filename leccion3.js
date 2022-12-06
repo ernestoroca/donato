@@ -90,7 +90,7 @@ var unidad2 = [
 "I take a shower.",
 "I get dressed.",
 "I have breakfast.",
-"I to to school.",
+"I go to school.",
 "Hello Olga.|Get up, please.",
 "What time is it?|It's eight o'clock.",
 "Olga, go to school, please.",
