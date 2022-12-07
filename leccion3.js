@@ -95,7 +95,7 @@ var unidad2 = [
 "What time is it?|It's eight o'clock.",
 "Olga, go to school, please.",
 "What time is it?|It's eight thirty.",
-"Ok, Mom.| Bye.",
+"Ok, Mom.|Bye.",
 "Bye, Olga.",
 "What time is it?|It's three o'clock.",
 "What time is it?|it's nine thirty.",
