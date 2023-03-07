@@ -749,7 +749,7 @@ var unidad8 = ["Summer is fun.",
 var unidad9 = [
 "I'm Karim.|I'm eight.",
 "I'm Lucy.|I'm eight.",
-"I'm Olga.| I'm nine.",
+"I'm Olga.|I'm nine.",
 "I'm Tom.|I'm eight.",
 "What's your name?|I'm Karim.",
 "How old are you?|I'm nine.",
