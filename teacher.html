@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+    <script>
+var basedatos = null;
+var elScript = null;
+
+function printUnidades(){
+    let str = `<option value="" selected>...</option>`;
+    for(let i=1;i<=maxUnidades;i++){
+        str += `<option value="unidad${i}">Unidad ${i}</option>`;
+    }
+    document.getElementById("selector-unidad").innerHTML = str;
+}
+function cargarArchivo(cb){
+    if(elScript){
+        elScript.parentNode.removeChild(elScript);
+    }
+    elScript = document.createElement('script');
+    elScript.onload = cb;
+    elScript.src = "https://ernestoroca.github.io/donato/"+basedatos.leccion+".js";
+    document.head.appendChild(elScript);
+}
+function selectLeccion(){
+    basedatos.leccion = document.getElementById("selector-leccion").value;
+    basedatos.unidad = "unidad1";
+    basedatos.max = -1;
+    document.getElementById("selector-unidad").value = basedatos.unidad;
+    cargarArchivo(cargarUnidad);
+}  
+function selectUnidad(){
+    basedatos.unidad = document.getElementById("selector-unidad").value;
+    basedatos.max = -1;
+    cargarUnidad();
+}
+function cargarUnidad(){
+    printUnidades();
+    document.getElementById("selector-leccion").value = basedatos.leccion;
+    document.getElementById("selector-unidad").value = basedatos.unidad;
+    
+    switch(basedatos.unidad){
+      case "unidad1":
+          basedatos.preguntas = unidad1;
+          break;
+      case "unidad2":
+          basedatos.preguntas = unidad2;
+          break;
+      case "unidad3":
+          basedatos.preguntas = unidad3;
+          break;
+      case "unidad4":
+          basedatos.preguntas = unidad4;
+          break;
+      case "unidad5":
+          basedatos.preguntas = unidad5;
+          break;
+      case "unidad6":
+          basedatos.preguntas = unidad6;
+          break;
+      case "unidad7":
+          basedatos.preguntas = unidad7;
+          break;
+      case "unidad8":
+          basedatos.preguntas = unidad8;
+          break;
+      case "unidad9":
+          basedatos.preguntas = unidad9;
+          break;
+      case "unidad10":
+          basedatos.preguntas = unidad10;
+          break;
+    }
+    basedatos.actual = -1
+    let len = basedatos.preguntas.length;
+    if(basedatos.max < 0){
+        let vec = [];
+        for(let i=0;i<len;i++){
+            vec.push(3);
+        }
+        basedatos.max = len*3;
+        basedatos.valores = vec;
+    } else {
+        let acc = 0;
+        for(let i=0;i<len;i++){
+            acc += basedatos.valores[i];
+        }
+        basedatos.max = acc;
+    }
+    preguntar();
+}
+function alcargar(){
+    let str = localStorage.getItem("teacher");
+    if(str){
+        basedatos = JSON.parse(str);
+    } else {
+        basedatos = {
+            leccion: "leccion1",
+            unidad: "unidad1",
+            max: -1
+        };
+    }
+    cargarArchivo(cargarUnidad);
+}
+function preguntar(){
+    let len = basedatos.preguntas.length;
+    let pos = 0;
+    let salto;
+    let max = (basedatos.max>40)?40:basedatos.max;
+    salto = Math.floor(max*Math.random())+1;
+    while(salto>basedatos.valores[pos]){
+        salto -= basedatos.valores[pos];
+        pos++;
+    }
+    basedatos.actual = pos;
+    mostrarPregunta();
+}
+function mostrarPregunta(){
+    let str = basedatos.preguntas[basedatos.actual];
+    let vec = str.split("|");
+    let len = vec.length;
+    let strHtml = "";
+    for(let i=0;i<len;i++){
+        strHtml += `
+        <li><p>${vec[i]}</p></li>
+        `;
+    }
+    document.getElementById("pizarra").innerHTML = strHtml;
+    document.getElementById("alerta").innerHTML = "";
+}
+function sumarTodo(){
+    let len = basedatos.valores.length;
+    let acc= 0;
+    for(let i=0;i<len;i++){
+        acc += basedatos.valores[i];
+    }
+    basedatos.max = acc;
+}
+function evaluar(fallo){
+    basedatos.actual = -1;
+    localStorage.setItem("ingles",JSON.stringify({
+        leccion: basedatos.leccion,
+        unidad: basedatos.unidad,
+        max: basedatos.max,
+        valores: basedatos.valores
+    }));
+    if(basedatos.max === 0){
+        document.getElementById("alerta").innerHTML = `
+<div class="w3-panel w3-green">
+  <h3>¡Exito!</h3>
+  <p>Terminaste la Unidad</p>
+</div>  `;
+    } else if (fallo){
+        setTimeout(preguntar,5000);
+    } else {
+        setTimeout(preguntar,2000);
+    }
+}
+function bien(){
+    basedatos.max--;
+    basedatos.valores[basedatos.actual]--;
+    document.getElementById("alerta").innerHTML = `
+<div class="w3-panel w3-green">
+  <h3>¡Exito!</h3>
+  <p>Así se hace: ${basedatos.max}</p>
+</div> `;
+    evaluar(false);
+}
+function mal(){
+    basedatos.valores[basedatos.actual] = 3;
+    sumarTodo();
+    document.getElementById("alerta").innerHTML = `
+<div class="w3-panel w3-red">
+  <h3>Error</h3>
+  <p>Sigue intentando: ${basedatos.max}</p>
+</div> `;
+    evaluar(true);
+}
+    </script>    
+  </head>
+  <!-- ################################################################################## -->
+  <!-- ################################################################################## -->
+  <body onload="alcargar();">
+    <div class="w3-row w3-blue">
+      <div class="w3-col s12 w3-center">
+        <h2>Teacher</h2>
+      </div>  
+    </div>
+    <div class="w3-row">
+      <div class="w3-col s12 m6 l4">
+        <select class="w3-select" id="selector-leccion">
+          <option value="" selected>...</option>
+          <option value="leccion1">Lección 1</option>
+          <option value="leccion2">Lección 2</option>
+          <option value="leccion3">Lección 3</option>
+          <option value="leccion4">Lección 4</option>
+          <option value="leccion5">Lección 5</option>
+        </select>
+      </div>
+      <div class="w3-col s12 m6 l4">
+        <select class="w3-select" id="selector-unidad">
+        </select>
+      </div>
+    </div><br><br><br><br><br>
+    <div class="w3-row">
+      <div class="w3-col s12">
+        <ul class="w3-ul w3-border" id="pizzarra">
+        </ul>
+      </div>
+    </div>
+    <div class="w3-row">
+      <div class="w3-col s6">
+        <button id="mal" class="w3-button w3-red w3-border w3-border-black w3-round-large">Mal</button>
+      </div>
+      <div class="w3-col s6">
+        <button id="bien" class="w3-button w3-green w3-border w3-border-black w3-round-large">Bien</button>
+      </div>
+    </div>
+    <div id="alerta"></div>
+    <script>
+document.getElementById("selector-leccion").onchange = selectLeccion;
+document.getElementById("selector-unidad").onchange = selectUnidad;
+document.getElementById("bien").onchange = bien;
+document.getElementById("mal").onchange = mal;
+    </script>  
+  </body>
+</html>
