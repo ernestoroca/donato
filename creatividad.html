@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+  </head>
+  <body>
+    <div class="w3-row w3-blue">
+      <div class="w3-col s12 w3-center">
+        <h2>Creatividad</h2>
+      </div>
+    </div><br>
+    <div class="w3-container">
+      <div class="w3-row">
+        <div class="w3-col s12 m6 l4">
+          <label><b>Tipo Ejercicio</b></label>
+          <select class="w3-select" id="selector">
+            <option value="" selected>...</option>
+            <option value="uno">Un objeto</option>
+            <option value="funcion">Objeto/Función</option>
+            <option value="dos">Unir objetos</option>
+          </select>
+        </div>
+      </div><br>
+      <div class="w3-card-4">
+        <div class="w3-container w3-green">
+          <h2 id="objetos"></h2>
+          <span id="consigna"></span>
+        </div>
+      </div><br>
+      <div class="w3-card-4">
+        <div class="w3-container w3-green">
+          <h2 id="tiempo">Repuestas (10:00)</h2>
+        </div>
+        <div class="w3-container">
+          <br>
+          <ul class="w3-ul w3-border" id="respuestas"></ul>
+          <p><input class="w3-input" type="text" id="entrada"></p>
+        </div>
+      </div><br>
+      <div class="w3-card-4">
+        <div class="w3-container w3-green">
+          <h2>Reportar al correo:</h2>
+        </div>
+        <div class="w3-container">
+          <p><input class="w3-input" type="text" id="correo"></p>
+        </div>
+      </div><br>
+    </div>
+  <script>
+var losObjetos = ["cuaderno", "periódico", "agenda", "teléfono", "computador", "llave", "silla", "lámpara", "mesa",
+"bolso", "lápiz", "bolígrafo", "diccionario", "papel", "borrador", "mapa", "ladrillo", "soga", "jarra", "vaso",
+"plato", "cuchara", "tenedor", "regla", "mochila", "pelota", "caja", "zapato", "pantalón", "pincel", "olla",
+"carpeta", "cuaderno", "libro", "libreta", "tijera", "aguja", "hilo", "jabón", "martillo", "escoba", "clavo",
+"ancla", "ambulancia", "alambre", "antena", "alicate", "aceituna", "antorcha", "afiche", "anzuelo", "álbum",
+"armario", "almohada", "avellana", "arbusto", "altavoz", "aspa", "algodón", "aro", "acordeón"];
+
+var tiempo = 0;
+var fases = [];
+var intervalo = null;
+var respuestas = [];
+var mensaje;
+
+function printTiempo(){
+    let minutos = Math.floor(tiempo);
+    let segundos = Math.floor((tiempo - minutos)*60);
+    let segundoStr = (segundos<10)?"0"+segundos:""+segundos;
+    document.getElementById("tiempo").innerHTML = "Repuestas ("+minutos+":"+segundoStr+")";
+}
+function monitor(){
+    tiempo -= 1/60;
+    if(tiempo > 0){
+        printTiempo();
+        return;
+    }
+    tiempo = 0;
+    printTiempo();
+    clearInterval(intervalo);
+    intervalo = null;
+    document.getElementById("entrada").value = "";
+    document.getElementById("respuestas").innerHTML = "";
+    let len = respuestas.length;
+    let lista = "";
+    for(let i=0;i<len;i++){
+        lista += `${respuestas[i]}%0D%0A`;
+    }
+    mensaje += lista;
+    respuestas = [];
+    
+    if(fases.length>0){
+        mensaje += fase[0].replace("<p>","").replace("</p>","%0D%0A");
+        document.getElementById("consigna").innerHTML = fases[0];
+        fases.splice(0,1);
+        return;
+    }
+    let correo = document.getElementById("correo").value.trim();
+    localStorage.setItem("creatividad-correo",correo);
+    window.open('mailto:'+correo+'?subject=Creatividad&body='+mensaje);
+    document.getElementById("selector").value = "";
+    document.getElementById("consigna").innerHTML = "<p>Elija un ejercicio</p>";
+    document.getElementById("objetos").innerHTML = "";
+}
+if(localStorage.getItem("creatividad-correo")){
+    document.getElementById("correo").value = localStorage.getItem("creatividad-correo");
+}
+
+document.getElementById("selector").onchange = function(){
+    let consigna,objetos;
+    let len = losObjetos.length;
+    switch(document.getElementById("selector").value){
+        case "":
+            tiempo = 0;
+            fases = [];
+            consigna = "<p>Elija un ejercicio</p>";
+            objetos = "";
+            break;
+        case "uno":
+            tiempo = 1;
+            fases = [];
+            consigna = "<p>¿Qué podes hacer con este objeto?</p>";
+            objetos = losObjetos[Math.floor(Math.random()*len)];
+            mensaje = consigna.replace("<p>","").replace("</p>","") +":"+ objetos+"%0D%0A";
+            break;
+        case "funcion":
+            tiempo = 5;
+            fases = [
+            `<p>Piensa qué problema resuelve este objeto.</p>
+             <p>¿Qué otros objetos podrías utilizar para resolver el problema?</p>`];
+            consigna = `
+              <p>Piensa qué problema resuelve este objeto.</p>
+              <p>¿Qué otros problemas podría resolver este objeto?</p>
+            `;
+            objetos = losObjetos[Math.floor(Math.random()*len)];
+            mensaje = consigna.replace("<p>","").replace("</p>"," ") +":"+ objetos +"%0D%0A";
+            break;
+        case "dos":
+            tiempo = 10;
+            fases = [];
+            consigna = "<p>Crea un nuevo producto/objeto combinando las características de estos dos objetos</p>";
+            let pos = Math.floor(Math.random()*len);
+            objetos = losObjetos[pos];
+            let nvo;
+            do{
+                nvo = Math.floor(Math.random()*len);
+            } while(nvo === pos)
+            objetos += " / "+ losObjetos[nvo];
+            mensaje = consigna.replace("<p>","").replace("</p>","") +":"+ objetos +"%0D%0A";
+            break;
+    }
+    printTiempo();
+    document.getElementById("entrada").value = "";
+    document.getElementById("respuestas").innerHTML = "";
+    document.getElementById("consigna").innerHTML = consigna;
+    document.getElementById("objetos").innerHTML = objetos;
+    
+    respuestas = [];
+    document.getElementById("entrada").focus();
+    if(intervalo !== null){
+        clearInterval(intervalo);
+        intervalo = null;
+    }
+}
+document.getElementById("entrada").onkeyup = function(evento){
+    if (evento.keyCode !== 13) {
+        return;
+    }
+    let texto = document.getElementById("entrada").value.trim();
+    if(texto === ""){
+        return;
+    }
+    document.getElementById("entrada").value = "";
+    if(document.getElementById("selector").value === ""){
+        return;
+    }
+    if(respuestas.length === 0){
+        intervalo = setInterval(monitor,1000);
+    }
+    respuestas.push(texto);
+    let li = document.createElement("li");
+    li.innerHTML = texto;
+    document.getElementById("respuestas").appendChild(li);
+};
+    </script>
+  </body>
+</html>
