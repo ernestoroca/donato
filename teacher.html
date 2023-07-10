@@ -7,6 +7,7 @@
 var basedatos = null;
 var elScript = null;
 var esperar = false;
+var oldPos = -1;
 
 function printUnidades(){
     let str = `<option value="" selected>...</option>`;
@@ -108,12 +109,19 @@ function preguntar(){
     let len = basedatos.preguntas.length;
     let pos = 0;
     let salto;
-    let max = (basedatos.max>40)?40:basedatos.max;
-    salto = Math.floor(max*Math.random())+1;
-    while(salto>basedatos.valores[pos]){
-        salto -= basedatos.valores[pos];
-        pos++;
-    }
+    let max = (basedatos.max>50)?50:basedatos.max;
+    let primera = true;
+    do{
+        salto = Math.floor(max*Math.random())+1;
+        while(salto>basedatos.valores[pos]){
+            salto -= basedatos.valores[pos];
+            pos++;
+        }
+        if(!primera){
+            oldPos = -1;
+        }
+        primera = false;
+    }while(oldPos === pos);
     basedatos.actual = pos;
     mostrarPregunta();
 }
