@@ -34,7 +34,7 @@ var unidad1 = [
 "He's drinking orange juice.",
 "She's eating soup.",
 "One table.",
-"Two. chairs.",
+"Two chairs.",
 "Three balls.",
 "Four oranges.",
 "Five ducks.",
