@@ -112,6 +112,7 @@ function preguntar(){
     let max = (basedatos.max>50)?50:basedatos.max;
     let primera = true;
     do{
+        pos = 0;
         salto = Math.floor(max*Math.random())+1;
         while(salto>basedatos.valores[pos]){
             salto -= basedatos.valores[pos];
