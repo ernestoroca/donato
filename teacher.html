@@ -122,6 +122,7 @@ function preguntar(){
         }
         primera = false;
     }while(oldPos === pos);
+    oldPos = pos;
     basedatos.actual = pos;
     mostrarPregunta();
 }
