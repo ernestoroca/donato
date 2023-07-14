@@ -141,7 +141,7 @@ var unidad2 = [
 "I want two eggs.",
 "The meat is red.",
 "Where's the apple?|It's on the plate.",
-"Where is the popcorn?|It is in the pag.",
+"Where is the popcorn?|It is in the bag.",
 "Where are the crackers?|They're on the plate.",
 "Where's the yogurt?|It's in the bowl.",
 "Where are the raisins?|They're in the box.",
