@@ -8,7 +8,7 @@ window.speechSynthesis.cancel();
 var speech = new SpeechSynthesisUtterance();
 speech.lang = "en";
 var ingles = null;
-var outputText = null,
+var outputText = null;
 window.speechSynthesis.onvoiceschanged = function(){
     if(ingles !== null){
         return;
