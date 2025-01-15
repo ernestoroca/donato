@@ -9,6 +9,7 @@ var speech = new SpeechSynthesisUtterance();
 speech.lang = "en";
 var ingles = null;
 var outputText = null;
+var escuchando = false;    
 var recognition = null;
 window.speechSynthesis.onvoiceschanged = function(){
     if(ingles !== null){
@@ -237,7 +238,12 @@ function mostrarPregunta(){
   
     document.getElementById("escuchar").onclick = function(){
       if(recognition){
-        recognition.start();   
+        if(escuchando){
+          recognition.stop();
+        } else {
+          recognition.start();  
+        }
+        escuchando = !escuchando;
       }
     }
     document.getElementById("enviar").onclick = evaluar;
