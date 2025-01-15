@@ -9,6 +9,7 @@ var speech = new SpeechSynthesisUtterance();
 speech.lang = "en";
 var ingles = null;
 var outputText = null;
+var recognition = null;
 window.speechSynthesis.onvoiceschanged = function(){
     if(ingles !== null){
         return;
@@ -23,21 +24,20 @@ window.speechSynthesis.onvoiceschanged = function(){
     }
 };
 
-const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
-recognition.lang = 'en-US';
-
-recognition.onstart = () => {
-    document.getElementById("alerta").innerHTML = "Escuchando";
-};
-
-recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    outputText.value = transcript;
-};
-
-recognition.onend = () => {
-    document.getElementById("alerta").innerHTML = "";
-};
+if(window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition){
+  recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+  recognition.lang = 'en-US';
+  recognition.onstart = () => {
+      document.getElementById("alerta").innerHTML = "Escuchando";
+  };
+  recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      outputText.value = transcript;
+  };
+  recognition.onend = () => {
+      document.getElementById("alerta").innerHTML = "";
+  };
+} 
 
 var basedatos = null;
 var elScript = null;
@@ -235,7 +235,11 @@ function mostrarPregunta(){
     document.getElementById("texto-"+(len-1)).onkeyup = presionoUltima;
     document.getElementById("texto-0").focus();
   
-    document.getElementById("escuchar").onclick = recognition.start;
+    document.getElementById("escuchar").onclick = function(){
+      if(recognition){
+        recognition.start();   
+      }
+    }
     document.getElementById("enviar").onclick = evaluar;
 }
 function sumarTodo(){
