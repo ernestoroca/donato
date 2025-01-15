@@ -8,6 +8,7 @@ window.speechSynthesis.cancel();
 var speech = new SpeechSynthesisUtterance();
 speech.lang = "en";
 var ingles = null;
+var outputDiv = null,
 window.speechSynthesis.onvoiceschanged = function(){
     if(ingles !== null){
         return;
@@ -20,6 +21,22 @@ window.speechSynthesis.onvoiceschanged = function(){
             ingles.push(voices[i]);
         }
     }
+};
+
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+recognition.lang = 'en-US';
+
+recognition.onstart = () => {
+    document.getElementById("alerta").innerHTML = "Escuchando";
+};
+
+recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    outputDiv.textContent = transcript;
+};
+
+recognition.onend = () => {
+    document.getElementById("alerta").innerHTML = "";
 };
 
 var basedatos = null;
@@ -199,6 +216,14 @@ function mostrarPregunta(){
     <button id="play-${i}" class="w3-button w3-green w3-border w3-border-black w3-round-large">Play</button>
   </div>
 </div>
+<div class="w3-row">
+  <div class="w3-col s4">
+    <button id="escuchar" class="w3-button w3-green w3-border w3-border-black w3-round-large">Escuchar</button>
+  </div>
+  <div class="w3-col s8">
+    <button id="enviar" class="w3-button w3-green w3-border w3-border-black w3-round-large">Enviar</button>
+  </div>
+</div>
         `;
     }
     document.getElementById("pizarra").innerHTML = strHtml;
@@ -208,6 +233,11 @@ function mostrarPregunta(){
     }
     document.getElementById("texto-"+(len-1)).onkeyup = presionoUltima;
     document.getElementById("texto-0").focus();
+  
+    document.getElementById("escuchar").onclick = function(){
+      document.getElementById("alerta").innerHTML = "Escuchando";
+      recognition.start();
+    ];
 }
 function sumarTodo(){
     let len = basedatos.valores.length;
@@ -294,9 +324,9 @@ function evaluar(){
         </select>
       </div>
     </div><br><br><br><br><br>
+    <div id="alerta"></div><br><br>
     <div id="pizarra"></div>
-    <div id="alerta"></div>
-    <script>
+<script>
 document.getElementById("pizarra").onclick = clickPizarra;
 document.getElementById("selector-leccion").onchange = selectLeccion;
 document.getElementById("selector-unidad").onchange = selectUnidad;
