@@ -8,7 +8,7 @@ window.speechSynthesis.cancel();
 var speech = new SpeechSynthesisUtterance();
 speech.lang = "en";
 var ingles = null;
-var outputDiv = null,
+var outputText = null,
 window.speechSynthesis.onvoiceschanged = function(){
     if(ingles !== null){
         return;
@@ -32,7 +32,7 @@ recognition.onstart = () => {
 
 recognition.onresult = (event) => {
     const transcript = event.results[0][0].transcript;
-    outputDiv.textContent = transcript;
+    outputText.value = transcript;
 };
 
 recognition.onend = () => {
@@ -193,6 +193,7 @@ function clickPizarra(evento){
     }
     let elId = target.id.replace("play-","");
     parlante(parseInt(elId,10));
+    outputText = document.getElementById("texto-"+elId);
 }
 function resetTraductor(){
     basedatos.valores[basedatos.actual] = 10;
@@ -234,10 +235,8 @@ function mostrarPregunta(){
     document.getElementById("texto-"+(len-1)).onkeyup = presionoUltima;
     document.getElementById("texto-0").focus();
   
-    document.getElementById("escuchar").onclick = function(){
-      document.getElementById("alerta").innerHTML = "Escuchando";
-      recognition.start();
-    ];
+    document.getElementById("escuchar").onclick = recognition.start;
+    document.getElementById("enviar").onclick = evaluar;
 }
 function sumarTodo(){
     let len = basedatos.valores.length;
