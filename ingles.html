@@ -30,6 +30,7 @@ if(window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeec
   recognition.lang = 'en-US';
   recognition.onstart = () => {
       document.getElementById("alerta").innerHTML = "Escuchando";
+      escuchando = true;
   };
   recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
@@ -37,6 +38,7 @@ if(window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeec
   };
   recognition.onend = () => {
       document.getElementById("alerta").innerHTML = "";
+      escuchando = false;
   };
 } 
 
@@ -245,7 +247,6 @@ function mostrarPregunta(){
         } else {
           recognition.start();  
         }
-        escuchando = !escuchando;
       }
     }
     document.getElementById("enviar").onclick = evaluar;
