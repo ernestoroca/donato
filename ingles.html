@@ -218,6 +218,9 @@ function mostrarPregunta(){
     <button id="play-${i}" class="w3-button w3-green w3-border w3-border-black w3-round-large">Play</button>
   </div>
 </div>
+        `;
+    }
+    strHtml += `
 <div class="w3-row">
   <div class="w3-col s8">
     <button id="escuchar" class="w3-button w3-green w3-border w3-border-black w3-round-large">Escuchar</button>
@@ -227,7 +230,6 @@ function mostrarPregunta(){
   </div>
 </div>
         `;
-    }
     document.getElementById("pizarra").innerHTML = strHtml;
     document.getElementById("alerta").innerHTML = "";
     for(let i=0;i<(len-1);i++){
@@ -265,6 +267,9 @@ function evaluar(){
     let fallo = false;
     for(let i=0;i<len;i++){
         let texto = document.getElementById("texto-"+i).value.trim().toLowerCase();
+        if(texto.slice(-1) !== "."){
+          texto += ".";
+        }
         if(vec[i].toLowerCase() !== texto){
             fallo = true;
         }
